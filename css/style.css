@@ -68,7 +68,7 @@ nav .cta-nav:hover { background: #1570b8; }
 
 /* HERO */
 .hero {
-  background: linear-gradient(135deg, #0f2b46 0%, #1a3a5c 100%);
+  background: #0a1e33;
   color: white;
   padding: 100px 0 80px;
   text-align: center;
@@ -79,7 +79,8 @@ nav .cta-nav:hover { background: #1570b8; }
   line-height: 1.2;
   margin-bottom: 20px;
   letter-spacing: -1px;
-  color: white;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 .hero h1 span { color: #1b82d6; }
 .hero p {

@@ -98,6 +98,19 @@
 </nav>
 
 <div class="onboard-container">
+  <!-- ACCESS GATE -->
+  <div id="access-gate" style="text-align:center;padding:60px 20px;">
+    <h1 style="font-size:28px;color:#0f2b46;margin-bottom:10px;">Access Required</h1>
+    <p style="color:#666;margin-bottom:25px;">Enter your access code to begin onboarding.</p>
+    <div style="display:flex;gap:10px;justify-content:center;max-width:350px;margin:0 auto;">
+      <input type="text" id="access-code" placeholder="Enter access code" style="flex:1;padding:12px 14px;border:2px solid #e0e0e0;border-radius:6px;font-size:16px;text-align:center;">
+      <button onclick="checkAccess()" style="padding:12px 24px;background:#1b82d6;color:white;border:none;border-radius:6px;font-size:16px;font-weight:600;cursor:pointer;">Enter</button>
+    </div>
+    <p id="access-error" style="color:#dc3545;margin-top:10px;display:none;">Invalid access code.</p>
+    <p style="color:#999;font-size:13px;margin-top:20px;">Don't have a code? <a href="mailto:zach@digitaldepthsmining.com">Contact us</a> to get started.</p>
+  </div>
+
+  <div id="onboard-content" style="display:none;">
   <div class="onboard-header">
     <h1>Launch Your BDC Agent</h1>
     <p>Fill out the form below and your agent will be live in under 60 seconds.</p>
@@ -294,6 +307,7 @@
       </div>
     </div>
   </form>
+  </div><!-- end onboard-content -->
 </div>
 
 <footer>
@@ -307,6 +321,23 @@
 <script>
   const API_BASE = 'https://scope-florence-detection-clock.trycloudflare.com';
   const API_KEY = 'ddm-onboard-2026';
+  const ACCESS_CODES = ['DDM2026', 'BERNARD', 'LAUNCH'];
+
+  function checkAccess() {
+    const code = document.getElementById('access-code').value.trim().toUpperCase();
+    if (ACCESS_CODES.includes(code)) {
+      document.getElementById('access-gate').style.display = 'none';
+      document.getElementById('onboard-content').style.display = 'block';
+    } else {
+      document.getElementById('access-error').style.display = 'block';
+      document.getElementById('access-code').style.borderColor = '#dc3545';
+    }
+  }
+
+  // Allow Enter key on access code
+  document.getElementById('access-code').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') checkAccess();
+  });
 
   let currentStep = 1;
 
