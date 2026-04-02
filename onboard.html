@@ -260,14 +260,11 @@
         </div>
       </div>
 
-      <div class="form-group" id="custom-price-group" style="display:none;">
-        <label>Negotiated Monthly Price <span class="required">*</span></label>
-        <div style="display:flex;align-items:center;gap:5px;">
-          <span style="font-size:20px;font-weight:700;color:#333;">$</span>
-          <input type="number" name="custom_price" id="custom-price-input" placeholder="2500" min="0" step="1" style="max-width:200px;">
-          <span style="color:#666;font-size:14px;">/month</span>
+      <div class="form-group" id="enterprise-notice" style="display:none;">
+        <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:20px;">
+          <strong>Enterprise plans require a consultation.</strong><br>
+          <p style="margin-top:8px;color:#666;font-size:14px;">Contact us at <a href="mailto:zach@digitaldepthsmining.com">zach@digitaldepthsmining.com</a> or call to discuss your multi-location needs and custom pricing. We'll get you set up personally.</p>
         </div>
-        <div class="hint">Enter the price agreed upon during your sales conversation.</div>
       </div>
 
       <div class="form-group">
@@ -354,15 +351,18 @@
     el.classList.add('selected');
     el.querySelector('input').checked = true;
 
-    const customGroup = document.getElementById('custom-price-group');
-    const customInput = document.getElementById('custom-price-input');
+    const notice = document.getElementById('enterprise-notice');
+    const launchBtn = document.getElementById('launch-btn');
     if (tier === 'enterprise') {
-      customGroup.style.display = 'block';
-      customInput.required = true;
+      notice.style.display = 'block';
+      launchBtn.disabled = true;
+      launchBtn.textContent = 'Contact Us for Enterprise';
+      launchBtn.onclick = function() { window.location.href = 'mailto:zach@digitaldepthsmining.com?subject=Enterprise%20Plan%20Inquiry'; };
     } else {
-      customGroup.style.display = 'none';
-      customInput.required = false;
-      customInput.value = '';
+      notice.style.display = 'none';
+      launchBtn.disabled = false;
+      launchBtn.textContent = 'Launch My BDC Agent';
+      launchBtn.onclick = submitForm;
     }
   }
 
