@@ -47,6 +47,14 @@
     .logo-upload .upload-text { font-size: 14px; color: #666; }
     .logo-preview { max-height: 80px; margin-top: 10px; }
 
+    .schedule-grid { width: 100%; border-collapse: collapse; }
+    .schedule-grid th { text-align: left; padding: 8px 10px; font-size: 13px; color: #666; border-bottom: 2px solid #e0e0e0; }
+    .schedule-grid td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; }
+    .schedule-grid input[type="time"] { padding: 8px 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; }
+    .schedule-grid input[type="time"]:disabled { opacity: 0.3; background: #f4f4f4; }
+    .schedule-grid input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: #1b82d6; }
+    .schedule-grid tr.closed td { opacity: 0.4; }
+
     .tier-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
     .tier-card { border: 2px solid #e0e0e0; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; }
     .tier-card:hover { border-color: #1b82d6; }
@@ -252,28 +260,23 @@
         </div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label>Business Hours Start</label>
-          <input type="time" name="hours_start" value="08:00">
-        </div>
-        <div class="form-group">
-          <label>Business Hours End</label>
-          <input type="time" name="hours_end" value="19:00">
-        </div>
-      </div>
-
       <div class="form-group">
-        <label>Business Days</label>
-        <div class="day-checkboxes">
-          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Mon">Mon</div>
-          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Tue">Tue</div>
-          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Wed">Wed</div>
-          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Thu">Thu</div>
-          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Fri">Fri</div>
-          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Sat">Sat</div>
-          <div class="day-checkbox" onclick="toggleDay(this)" data-day="Sun">Sun</div>
-        </div>
+        <label>Business Hours Schedule</label>
+        <div class="hint" style="margin-bottom:10px;">Set hours for each day. Uncheck days you're closed.</div>
+        <table class="schedule-grid">
+          <thead>
+            <tr><th>Day</th><th>Open</th><th>Start</th><th>End</th></tr>
+          </thead>
+          <tbody>
+            <tr data-day="Mon"><td><strong>Monday</strong></td><td><input type="checkbox" checked onchange="toggleDayRow(this)"></td><td><input type="time" value="08:00" class="day-start"></td><td><input type="time" value="19:00" class="day-end"></td></tr>
+            <tr data-day="Tue"><td><strong>Tuesday</strong></td><td><input type="checkbox" checked onchange="toggleDayRow(this)"></td><td><input type="time" value="08:00" class="day-start"></td><td><input type="time" value="19:00" class="day-end"></td></tr>
+            <tr data-day="Wed"><td><strong>Wednesday</strong></td><td><input type="checkbox" checked onchange="toggleDayRow(this)"></td><td><input type="time" value="08:00" class="day-start"></td><td><input type="time" value="19:00" class="day-end"></td></tr>
+            <tr data-day="Thu"><td><strong>Thursday</strong></td><td><input type="checkbox" checked onchange="toggleDayRow(this)"></td><td><input type="time" value="08:00" class="day-start"></td><td><input type="time" value="19:00" class="day-end"></td></tr>
+            <tr data-day="Fri"><td><strong>Friday</strong></td><td><input type="checkbox" checked onchange="toggleDayRow(this)"></td><td><input type="time" value="08:00" class="day-start"></td><td><input type="time" value="19:00" class="day-end"></td></tr>
+            <tr data-day="Sat"><td><strong>Saturday</strong></td><td><input type="checkbox" checked onchange="toggleDayRow(this)"></td><td><input type="time" value="09:00" class="day-start"></td><td><input type="time" value="17:00" class="day-end"></td></tr>
+            <tr data-day="Sun"><td><strong>Sunday</strong></td><td><input type="checkbox" onchange="toggleDayRow(this)"></td><td><input type="time" value="10:00" class="day-start" disabled></td><td><input type="time" value="16:00" class="day-end" disabled></td></tr>
+          </tbody>
+        </table>
       </div>
 
       <div style="margin-top:30px;">
@@ -342,8 +345,28 @@
     el.querySelector('input').checked = true;
   }
 
-  function toggleDay(el) {
-    el.classList.toggle('checked');
+  function toggleDayRow(checkbox) {
+    const row = checkbox.closest('tr');
+    const timeInputs = row.querySelectorAll('input[type="time"]');
+    if (checkbox.checked) {
+      row.classList.remove('closed');
+      timeInputs.forEach(input => input.disabled = false);
+    } else {
+      row.classList.add('closed');
+      timeInputs.forEach(input => input.disabled = true);
+    }
+  }
+
+  function getSchedule() {
+    const schedule = {};
+    document.querySelectorAll('.schedule-grid tbody tr').forEach(row => {
+      const day = row.dataset.day;
+      const isOpen = row.querySelector('input[type="checkbox"]').checked;
+      const start = row.querySelector('.day-start').value;
+      const end = row.querySelector('.day-end').value;
+      schedule[day] = isOpen ? { open: true, start, end } : { open: false };
+    });
+    return schedule;
   }
 
   function handleLogoUpload(input) {
@@ -381,10 +404,8 @@
       }
     });
 
-    // Collect business days
-    const days = [];
-    document.querySelectorAll('.day-checkbox.checked').forEach(el => days.push(el.dataset.day));
-    formData.business_days = JSON.stringify(days);
+    // Collect schedule grid
+    formData.schedule = JSON.stringify(getSchedule());
 
     try {
       const response = await fetch(API_BASE + '/webhook/onboard', {
