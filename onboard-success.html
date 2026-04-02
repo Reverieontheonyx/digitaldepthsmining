@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Launching Your Agent — Digital Depths Mining</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .launch-container { max-width: 550px; margin: 0 auto; padding: 60px 20px; text-align: center; }
+    .launch-icon { font-size: 64px; margin-bottom: 20px; }
+    .launch-title { font-size: 28px; font-weight: 700; color: #0f2b46; margin-bottom: 10px; }
+    .launch-sub { color: #666; font-size: 16px; margin-bottom: 40px; }
+
+    .progress-list { text-align: left; max-width: 400px; margin: 0 auto; }
+    .progress-item { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid #f0f0f0; font-size: 16px; color: #333; }
+    .progress-item:last-child { border-bottom: none; }
+    .progress-icon { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 14px; flex-shrink: 0; }
+    .progress-icon.waiting { background: #e0e0e0; color: #999; }
+    .progress-icon.active { background: #1b82d6; color: white; animation: pulse 1s infinite; }
+    .progress-icon.done { background: #28a745; color: white; }
+    .progress-icon.failed { background: #dc3545; color: white; }
+    .progress-text { flex: 1; }
+    .progress-text.waiting { color: #999; }
+    .progress-text.active { color: #1b82d6; font-weight: 600; }
+    .progress-text.done { color: #28a745; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .success-banner { background: #d4edda; border: 2px solid #28a745; border-radius: 12px; padding: 30px; margin-top: 40px; display: none; }
+    .success-banner h2 { color: #28a745; font-size: 24px; margin-bottom: 10px; }
+    .success-banner p { color: #333; font-size: 15px; line-height: 1.6; }
+
+    .error-banner { background: #f8d7da; border: 2px solid #dc3545; border-radius: 12px; padding: 30px; margin-top: 40px; display: none; }
+    .error-banner h2 { color: #dc3545; font-size: 24px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="index.html" class="logo">Digital Depths <span>Mining</span></a>
+  </div>
+</nav>
+
+<div class="launch-container">
+  <div class="launch-icon" id="main-icon">&#9881;</div>
+  <div class="launch-title" id="main-title">Launching Your BDC Agent...</div>
+  <div class="launch-sub" id="main-sub">This usually takes less than 60 seconds.</div>
+
+  <div class="progress-list">
+    <div class="progress-item" id="step-provisioning">
+      <div class="progress-icon waiting" id="icon-provisioning">1</div>
+      <div class="progress-text waiting" id="text-provisioning">Setting up your account...</div>
+    </div>
+    <div class="progress-item" id="step-branding">
+      <div class="progress-icon waiting" id="icon-branding">2</div>
+      <div class="progress-text waiting" id="text-branding">Customizing your templates...</div>
+    </div>
+    <div class="progress-item" id="step-invoicing">
+      <div class="progress-icon waiting" id="icon-invoicing">3</div>
+      <div class="progress-text waiting" id="text-invoicing">Generating your invoice...</div>
+    </div>
+    <div class="progress-item" id="step-welcome">
+      <div class="progress-icon waiting" id="icon-welcome">4</div>
+      <div class="progress-text waiting" id="text-welcome">Sending welcome package...</div>
+    </div>
+    <div class="progress-item" id="step-complete">
+      <div class="progress-icon waiting" id="icon-complete">5</div>
+      <div class="progress-text waiting" id="text-complete">Activating your agent...</div>
+    </div>
+  </div>
+
+  <div class="success-banner" id="success-banner">
+    <h2>Your BDC Agent is LIVE!</h2>
+    <p>Check your email for a welcome message with instructions on how to upload your leads. Your agent will start following up with customers automatically.</p>
+    <p style="margin-top:15px;"><strong>What's next?</strong> Export your leads from your CRM as an Excel or CSV file and email it to <a href="mailto:zach@digitaldepthsmining.com">zach@digitaldepthsmining.com</a>.</p>
+  </div>
+
+  <div class="error-banner" id="error-banner">
+    <h2>Something went wrong</h2>
+    <p id="error-message">We've been notified and will reach out to you shortly. You can also contact us at <a href="mailto:zach@digitaldepthsmining.com">zach@digitaldepthsmining.com</a>.</p>
+  </div>
+</div>
+
+<script>
+  const API_BASE = 'https://api.digitaldepthsmining.com';
+  const params = new URLSearchParams(window.location.search);
+  const jobId = params.get('jobId');
+
+  const statusOrder = ['pending', 'provisioning', 'branding', 'invoicing', 'welcome', 'complete'];
+
+  function updateProgress(status) {
+    const currentIndex = statusOrder.indexOf(status);
+
+    const steps = ['provisioning', 'branding', 'invoicing', 'welcome', 'complete'];
+    steps.forEach((step, i) => {
+      const icon = document.getElementById(`icon-${step}`);
+      const text = document.getElementById(`text-${step}`);
+
+      if (i < currentIndex - 1) {
+        // Done
+        icon.className = 'progress-icon done';
+        icon.textContent = '\u2713';
+        text.className = 'progress-text done';
+      } else if (i === currentIndex - 1 || (status === 'complete' && i === steps.length - 1)) {
+        if (status === 'complete') {
+          icon.className = 'progress-icon done';
+          icon.textContent = '\u2713';
+          text.className = 'progress-text done';
+        } else {
+          icon.className = 'progress-icon active';
+          icon.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite;">&#9881;</span>';
+          text.className = 'progress-text active';
+        }
+      } else {
+        icon.className = 'progress-icon waiting';
+        icon.textContent = (i + 1).toString();
+        text.className = 'progress-text waiting';
+      }
+    });
+
+    if (status === 'complete') {
+      document.getElementById('main-icon').textContent = '\ud83c\udf89';
+      document.getElementById('main-title').textContent = 'All Set!';
+      document.getElementById('main-sub').textContent = '';
+      document.getElementById('success-banner').style.display = 'block';
+
+      // Mark all as done
+      steps.forEach(step => {
+        document.getElementById(`icon-${step}`).className = 'progress-icon done';
+        document.getElementById(`icon-${step}`).textContent = '\u2713';
+        document.getElementById(`text-${step}`).className = 'progress-text done';
+      });
+    }
+
+    if (status === 'failed') {
+      document.getElementById('main-icon').textContent = '\u26a0\ufe0f';
+      document.getElementById('main-title').textContent = 'Setup Issue';
+      document.getElementById('main-sub').textContent = '';
+      document.getElementById('error-banner').style.display = 'block';
+    }
+  }
+
+  async function pollStatus() {
+    if (!jobId) {
+      document.getElementById('main-title').textContent = 'Missing job ID';
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/webhook/onboard/status/${jobId}`);
+      const data = await res.json();
+
+      updateProgress(data.status);
+
+      if (data.status === 'complete' || data.status === 'failed') {
+        if (data.error_message) {
+          document.getElementById('error-message').textContent = data.error_message;
+        }
+        return; // Stop polling
+      }
+
+      // Poll again in 2 seconds
+      setTimeout(pollStatus, 2000);
+    } catch (err) {
+      // Retry on network error
+      setTimeout(pollStatus, 3000);
+    }
+  }
+
+  // Start polling
+  updateProgress('provisioning');
+  setTimeout(pollStatus, 1000);
+</script>
+
+</body>
+</html>

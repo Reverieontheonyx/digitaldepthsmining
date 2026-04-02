@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Started — Digital Depths Mining</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .onboard-container { max-width: 650px; margin: 0 auto; padding: 40px 20px; }
+    .onboard-header { text-align: center; margin-bottom: 40px; }
+    .onboard-header h1 { font-size: 32px; color: #0f2b46; margin-bottom: 10px; }
+    .onboard-header p { color: #666; font-size: 16px; }
+
+    .progress-bar { display: flex; justify-content: space-between; margin-bottom: 40px; position: relative; }
+    .progress-bar::before { content: ''; position: absolute; top: 15px; left: 0; right: 0; height: 3px; background: #e0e0e0; z-index: 0; }
+    .progress-step { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; }
+    .progress-dot { width: 32px; height: 32px; border-radius: 50%; background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white; transition: all 0.3s; }
+    .progress-dot.active { background: #1b82d6; }
+    .progress-dot.done { background: #28a745; }
+    .progress-label { font-size: 12px; color: #999; margin-top: 8px; }
+    .progress-label.active { color: #1b82d6; font-weight: 600; }
+
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px; }
+    .form-group label .required { color: #dc3545; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 6px;
+      font-size: 15px; transition: border-color 0.2s; box-sizing: border-box;
+    }
+    .form-group input:focus, .form-group select:focus { border-color: #1b82d6; outline: none; }
+    .form-group .hint { font-size: 12px; color: #999; margin-top: 4px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+    .color-picker-group { display: flex; align-items: center; gap: 12px; }
+    .color-picker-group input[type="color"] { width: 50px; height: 42px; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer; padding: 2px; }
+    .color-picker-group input[type="text"] { flex: 1; }
+
+    .logo-upload { border: 2px dashed #e0e0e0; border-radius: 8px; padding: 30px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+    .logo-upload:hover { border-color: #1b82d6; }
+    .logo-upload.has-file { border-color: #28a745; border-style: solid; }
+    .logo-upload input { display: none; }
+    .logo-upload .upload-icon { font-size: 36px; margin-bottom: 8px; }
+    .logo-upload .upload-text { font-size: 14px; color: #666; }
+    .logo-preview { max-height: 80px; margin-top: 10px; }
+
+    .tier-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .tier-card { border: 2px solid #e0e0e0; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .tier-card:hover { border-color: #1b82d6; }
+    .tier-card.selected { border-color: #1b82d6; background: #e8f4fd; }
+    .tier-card h3 { font-size: 18px; color: #0f2b46; margin-bottom: 5px; }
+    .tier-card .price { font-size: 28px; font-weight: 800; color: #0f2b46; }
+    .tier-card .price span { font-size: 14px; font-weight: 400; color: #666; }
+    .tier-card input { display: none; }
+
+    .day-checkboxes { display: flex; gap: 8px; flex-wrap: wrap; }
+    .day-checkbox { padding: 8px 14px; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s; user-select: none; }
+    .day-checkbox.checked { background: #1b82d6; color: white; border-color: #1b82d6; }
+
+    .btn-row { display: flex; justify-content: space-between; margin-top: 30px; gap: 15px; }
+    .btn { padding: 14px 30px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: #1b82d6; color: white; }
+    .btn-primary:hover { background: #1570b8; }
+    .btn-secondary { background: white; color: #1b82d6; border: 2px solid #1b82d6; }
+    .btn-secondary:hover { background: #e8f4fd; }
+    .btn-launch { background: #28a745; color: white; font-size: 18px; padding: 16px 40px; width: 100%; }
+    .btn-launch:hover { background: #218838; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .section-title { font-size: 20px; font-weight: 700; color: #0f2b46; margin-bottom: 20px; }
+
+    @media (max-width: 768px) {
+      .form-row, .tier-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="index.html" class="logo">Digital Depths <span>Mining</span></a>
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#pricing">Pricing</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="onboard-container">
+  <div class="onboard-header">
+    <h1>Launch Your BDC Agent</h1>
+    <p>Fill out the form below and your agent will be live in under 60 seconds.</p>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-step"><div class="progress-dot active" id="dot-1">1</div><div class="progress-label active" id="label-1">Business</div></div>
+    <div class="progress-step"><div class="progress-dot" id="dot-2">2</div><div class="progress-label" id="label-2">Contacts</div></div>
+    <div class="progress-step"><div class="progress-dot" id="dot-3">3</div><div class="progress-label" id="label-3">Branding</div></div>
+    <div class="progress-step"><div class="progress-dot" id="dot-4">4</div><div class="progress-label" id="label-4">Plan</div></div>
+  </div>
+
+  <form id="onboard-form">
+
+    <!-- STEP 1: Business Info -->
+    <div class="form-step active" id="step-1">
+      <div class="section-title">Business Information</div>
+
+      <div class="form-group">
+        <label>Dealership Name <span class="required">*</span></label>
+        <input type="text" name="dealer_name" required placeholder="Bernard's Northtown Inc.">
+      </div>
+
+      <div class="form-group">
+        <label>Address <span class="required">*</span></label>
+        <input type="text" name="dealer_address" required placeholder="123 Main St, City, ST 12345">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Website</label>
+          <input type="url" name="dealer_website" placeholder="https://www.yourdealership.com">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" name="dealer_phone" placeholder="(555) 555-5555">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Timezone</label>
+        <select name="timezone">
+          <option value="America/New_York">Eastern Time</option>
+          <option value="America/Chicago" selected>Central Time</option>
+          <option value="America/Denver">Mountain Time</option>
+          <option value="America/Los_Angeles">Pacific Time</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <div></div>
+        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Contacts -->
+    <div class="form-step" id="step-2">
+      <div class="section-title">Contact Information</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name <span class="required">*</span></label>
+          <input type="text" name="primary_contact_name" required placeholder="John Smith">
+        </div>
+        <div class="form-group">
+          <label>Your Email <span class="required">*</span></label>
+          <input type="email" name="primary_contact_email" required placeholder="john@dealership.com">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Default Sales Rep Name</label>
+        <input type="text" name="sales_rep_name" placeholder="Name that appears on follow-up messages">
+        <div class="hint">This name appears in emails and texts sent to customers.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Handoff Alert Emails</label>
+        <input type="text" name="handoff_emails" placeholder="manager@dealer.com, rep1@dealer.com">
+        <div class="hint">Comma-separated. These people get alerted when a customer replies.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Daily Report Emails</label>
+        <input type="text" name="report_emails" placeholder="owner@dealer.com">
+        <div class="hint">Who receives the daily performance report? Defaults to your email if left blank.</div>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Back</button>
+        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Branding -->
+    <div class="form-step" id="step-3">
+      <div class="section-title">Branding</div>
+      <p style="color:#666;margin-bottom:20px;">Your emails will be branded with your dealership's look and feel.</p>
+
+      <div class="form-group">
+        <label>Dealership Logo</label>
+        <div class="logo-upload" id="logo-dropzone" onclick="document.getElementById('logo-input').click()">
+          <input type="file" id="logo-input" accept="image/png,image/jpeg,image/gif,image/svg+xml" onchange="handleLogoUpload(this)">
+          <div class="upload-icon">&#128247;</div>
+          <div class="upload-text">Click to upload your logo (PNG, JPG, or SVG)</div>
+          <img id="logo-preview" class="logo-preview" style="display:none">
+        </div>
+        <input type="hidden" name="logo_url" id="logo-url-input">
+      </div>
+
+      <div class="form-group">
+        <label>Primary Brand Color</label>
+        <div class="color-picker-group">
+          <input type="color" id="color-picker" value="#1b82d6" onchange="document.getElementById('color-text').value=this.value">
+          <input type="text" id="color-text" name="primary_color" value="#1b82d6" placeholder="#1b82d6" onchange="document.getElementById('color-picker').value=this.value">
+        </div>
+        <div class="hint">Used for email headers and buttons. Pick your dealership's main brand color.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Secondary Color (optional)</label>
+        <div class="color-picker-group">
+          <input type="color" id="color-picker-2" value="#0f2b46" onchange="document.getElementById('color-text-2').value=this.value">
+          <input type="text" id="color-text-2" name="secondary_color" value="" placeholder="Auto-generated if blank">
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Back</button>
+        <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Plan & Hours -->
+    <div class="form-step" id="step-4">
+      <div class="section-title">Plan & Hours</div>
+
+      <div class="form-group">
+        <label>Select Your Plan</label>
+        <div class="tier-cards">
+          <div class="tier-card selected" onclick="selectTier(this, 'starter')">
+            <h3>Starter</h3>
+            <div class="price">$1,000<span>/mo</span></div>
+            <p style="font-size:12px;color:#666;margin-top:8px;">200 leads, 500 SMS</p>
+            <input type="radio" name="tier" value="starter" checked>
+          </div>
+          <div class="tier-card" onclick="selectTier(this, 'professional')">
+            <h3>Professional</h3>
+            <div class="price">$1,499<span>/mo</span></div>
+            <p style="font-size:12px;color:#666;margin-top:8px;">500 leads, 1500 SMS</p>
+            <input type="radio" name="tier" value="professional">
+          </div>
+          <div class="tier-card" onclick="selectTier(this, 'enterprise')">
+            <h3>Enterprise</h3>
+            <div class="price">Custom</div>
+            <p style="font-size:12px;color:#666;margin-top:8px;">Unlimited, multi-location</p>
+            <input type="radio" name="tier" value="enterprise">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Business Hours Start</label>
+          <input type="time" name="hours_start" value="08:00">
+        </div>
+        <div class="form-group">
+          <label>Business Hours End</label>
+          <input type="time" name="hours_end" value="19:00">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Business Days</label>
+        <div class="day-checkboxes">
+          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Mon">Mon</div>
+          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Tue">Tue</div>
+          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Wed">Wed</div>
+          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Thu">Thu</div>
+          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Fri">Fri</div>
+          <div class="day-checkbox checked" onclick="toggleDay(this)" data-day="Sat">Sat</div>
+          <div class="day-checkbox" onclick="toggleDay(this)" data-day="Sun">Sun</div>
+        </div>
+      </div>
+
+      <div style="margin-top:30px;">
+        <button type="button" class="btn btn-secondary" onclick="prevStep(3)" style="margin-bottom:15px;">Back</button>
+        <button type="button" class="btn btn-launch" id="launch-btn" onclick="submitForm()">
+          Launch My BDC Agent
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Digital Depths Mining. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const API_BASE = 'https://api.digitaldepthsmining.com'; // Update after Cloudflare Tunnel setup
+  const API_KEY = 'ddm-onboard-2026';
+
+  let currentStep = 1;
+
+  function nextStep(step) {
+    // Validate current step
+    const currentFields = document.querySelectorAll(`#step-${currentStep} [required]`);
+    for (const field of currentFields) {
+      if (!field.value.trim()) {
+        field.style.borderColor = '#dc3545';
+        field.focus();
+        return;
+      }
+      field.style.borderColor = '#e0e0e0';
+    }
+
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    document.getElementById(`step-${step}`).classList.add('active');
+    document.getElementById(`dot-${currentStep}`).classList.remove('active');
+    document.getElementById(`dot-${currentStep}`).classList.add('done');
+    document.getElementById(`dot-${currentStep}`).textContent = '\u2713';
+    document.getElementById(`label-${currentStep}`).classList.remove('active');
+    document.getElementById(`dot-${step}`).classList.add('active');
+    document.getElementById(`label-${step}`).classList.add('active');
+    currentStep = step;
+    window.scrollTo(0, 0);
+  }
+
+  function prevStep(step) {
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    document.getElementById(`step-${step}`).classList.add('active');
+    document.getElementById(`dot-${currentStep}`).classList.remove('active');
+    document.getElementById(`label-${currentStep}`).classList.remove('active');
+    document.getElementById(`dot-${step}`).classList.remove('done');
+    document.getElementById(`dot-${step}`).classList.add('active');
+    document.getElementById(`dot-${step}`).textContent = step;
+    document.getElementById(`label-${step}`).classList.add('active');
+    currentStep = step;
+  }
+
+  function selectTier(el, tier) {
+    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+  }
+
+  function toggleDay(el) {
+    el.classList.toggle('checked');
+  }
+
+  function handleLogoUpload(input) {
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('logo-preview').src = e.target.result;
+        document.getElementById('logo-preview').style.display = 'block';
+        document.getElementById('logo-dropzone').classList.add('has-file');
+        document.querySelector('.upload-text').textContent = file.name;
+        // Store as data URL for now (will be uploaded to server)
+        document.getElementById('logo-url-input').value = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  async function submitForm() {
+    const btn = document.getElementById('launch-btn');
+    btn.disabled = true;
+    btn.textContent = 'Launching...';
+
+    const form = document.getElementById('onboard-form');
+    const formData = {};
+
+    // Collect all form fields
+    const inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+      if (input.name && input.type !== 'radio' && input.type !== 'file') {
+        formData[input.name] = input.value;
+      }
+      if (input.type === 'radio' && input.checked) {
+        formData[input.name] = input.value;
+      }
+    });
+
+    // Collect business days
+    const days = [];
+    document.querySelectorAll('.day-checkbox.checked').forEach(el => days.push(el.dataset.day));
+    formData.business_days = JSON.stringify(days);
+
+    try {
+      const response = await fetch(API_BASE + '/webhook/onboard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-DDM-Key': API_KEY
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        window.location.href = `onboard-success.html?jobId=${result.jobId}`;
+      } else {
+        alert('Error: ' + (result.error || 'Something went wrong. Please try again.'));
+        btn.disabled = false;
+        btn.textContent = 'Launch My BDC Agent';
+      }
+    } catch (err) {
+      alert('Connection error. Please check your internet and try again.');
+      btn.disabled = false;
+      btn.textContent = 'Launch My BDC Agent';
+    }
+  }
+</script>
+
+</body>
+</html>
