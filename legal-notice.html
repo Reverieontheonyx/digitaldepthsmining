@@ -319,7 +319,154 @@
       <p>This disclosure distinguishes between AI tools used in development (which have no data access) and AI features used in operation (which process data only on Company infrastructure).</p>
     </section>
 
-    <p class="updated"><strong>Version: DDM-ULN-v1.0-2026-04-03 | Effective Date: April 3, 2026</strong></p>
+    <!-- Appendix E -->
+    <section id="sto">
+      <h2>APPENDIX E: SERVICE TERMINATION AND DATA OFFBOARDING</h2>
+
+      <p>This appendix governs the handling of Dealer Data and End User Personal Data upon termination, cancellation, or non-renewal of BDC Services (collectively, "Termination"). These terms apply regardless of which party initiates the Termination and regardless of the reason for Termination.</p>
+
+      <h3>1. IMMEDIATE EFFECTS OF TERMINATION:</h3>
+      <p>Upon Termination, the Company shall immediately:</p>
+      <ul>
+        <li>Cease all automated outbound communications (email and SMS) on behalf of the Dealer</li>
+        <li>Pause all active lead follow-up sequences</li>
+        <li>Cancel all queued but unsent messages</li>
+        <li>Disable the Dealer's AI agent from sending new communications</li>
+      </ul>
+
+      <h3>2. DATA EXPORT AND RETURN:</h3>
+      <p>Prior to data deletion, the Company shall:</p>
+      <ul>
+        <li>Generate a complete export of all Dealer Data, including lead records, communication history, and activity logs</li>
+        <li>Make the export available to the Dealer in a standard, machine-readable format (CSV)</li>
+        <li>Maintain the export for download for a period of thirty (30) days following Termination</li>
+        <li>Notify the Dealer via email that the export is available for download</li>
+      </ul>
+      <p>The Dealer is responsible for downloading and retaining the export within the 30-day availability window. After 30 days, the export file will be permanently deleted from Company systems.</p>
+
+      <h3>3. DATA DELETION TIMELINE:</h3>
+      <p>Following the 30-day export availability period, the Company shall permanently delete or anonymize the following data within thirty (30) calendar days:</p>
+      <ul>
+        <li><strong>Personal Data:</strong> Lead names, email addresses, phone numbers, and any other personally identifying information</li>
+        <li><strong>Communication Content:</strong> The body text and subject lines of all emails and SMS messages sent or received</li>
+        <li><strong>Dealer Configuration:</strong> Templates, branding, agent customizations, and dealer-specific settings</li>
+        <li><strong>Portal Access:</strong> All user accounts, passwords, sessions, and authentication credentials associated with the Dealer</li>
+      </ul>
+
+      <h3>4. DATA RETAINED AFTER DELETION:</h3>
+      <p>Notwithstanding the above, the Company shall retain the following records as required by applicable law and for the legitimate purposes described herein:</p>
+      <ul>
+        <li><strong>Consent Records:</strong> Records of SMS opt-in consent, opt-out requests, and email unsubscribe requests, retained for a minimum of five (5) years to comply with TCPA requirements and to ensure continued honoring of opt-out preferences</li>
+        <li><strong>Communication Metadata:</strong> Non-identifying records of message direction, channel, timestamp, delivery status, and template name, retained for a minimum of three (3) years for compliance auditing</li>
+        <li><strong>Opt-Out Lists:</strong> Anonymized records sufficient to prevent future contact with individuals who opted out, retained indefinitely</li>
+        <li><strong>Billing and Invoicing Records:</strong> Retained for seven (7) years as required by federal tax law</li>
+        <li><strong>Audit Trail:</strong> A log of the offboarding process itself, including timestamps, steps completed, and confirmation of deletion</li>
+      </ul>
+
+      <h3>5. ANONYMIZATION METHODOLOGY:</h3>
+      <p>Where data is anonymized rather than deleted (to preserve aggregate metrics while removing personal identifiers), the Company uses the following approach:</p>
+      <ul>
+        <li>Names are replaced with non-identifying placeholders</li>
+        <li>Email addresses are replaced with irreversible cryptographic hashes directed to an invalid domain</li>
+        <li>Phone numbers are set to null</li>
+        <li>Message content is permanently removed while metadata is retained</li>
+      </ul>
+      <p>Anonymized data cannot be re-identified or linked to any individual. The anonymization process is irreversible.</p>
+
+      <h3>6. AGENTMAIL INBOX:</h3>
+      <p>The dedicated email inbox created for the Dealer's AI agent (e.g., dealername@agentmail.to) will be permanently deleted. Any emails remaining in the inbox at the time of deletion will be permanently lost. The Company is not responsible for preserving inbound emails that were not processed prior to Termination.</p>
+
+      <h3>7. CONFIRMATION:</h3>
+      <p>Upon completion of the offboarding process, the Company shall provide the Dealer with written confirmation (via email to the Dealer's primary contact) that:</p>
+      <ul>
+        <li>All automated communications have ceased</li>
+        <li>The data export was made available</li>
+        <li>Personal Data has been deleted or anonymized</li>
+        <li>Portal access has been revoked</li>
+        <li>Only legally required compliance records have been retained</li>
+      </ul>
+
+      <h3>8. DEALER OBLIGATIONS AT TERMINATION:</h3>
+      <p>The Dealer acknowledges that:</p>
+      <ul>
+        <li>It is the Dealer's responsibility to download the data export within the 30-day availability window</li>
+        <li>Any outstanding invoices or balances remain due and payable regardless of Termination</li>
+        <li>The Dealer must independently notify its own customers of any changes to communication handling, as appropriate</li>
+        <li>The Company bears no liability for data that the Dealer fails to export within the designated period</li>
+      </ul>
+    </section>
+
+    <!-- Appendix F -->
+    <section id="cdr">
+      <h2>APPENDIX F: CONSUMER DATA RIGHTS</h2>
+
+      <p>This appendix describes how Digital Depths Mining handles consumer data rights requests, including but not limited to those arising under the California Consumer Privacy Act (CCPA), as amended by the California Privacy Rights Act (CPRA), and substantially similar state privacy laws (collectively, "Applicable Privacy Laws").</p>
+
+      <h3>1. SCOPE:</h3>
+      <p>This appendix applies to the Personal Data of End Users (consumers/leads) that is processed by the Company on behalf of subscribing Dealers. The Company acts as a Service Provider / Data Processor. The Dealer, as the Data Controller, is the primary point of contact for consumer rights requests. However, the Company maintains systems and processes to assist Dealers in fulfilling these requests.</p>
+
+      <h3>2. RIGHT TO KNOW / RIGHT OF ACCESS:</h3>
+      <p>Upon verified request from a Dealer (acting on behalf of a consumer), the Company can provide:</p>
+      <ul>
+        <li>The categories of Personal Data collected about the consumer</li>
+        <li>The specific pieces of Personal Data held about the consumer</li>
+        <li>The business purpose for which the data was collected and processed</li>
+        <li>The categories of third parties with whom the data was shared (if any)</li>
+      </ul>
+      <p>The Company does not sell Personal Data and does not share Personal Data for cross-context behavioral advertising.</p>
+
+      <h3>3. RIGHT TO DELETE:</h3>
+      <p>Upon verified request from a Dealer (acting on behalf of a consumer), the Company shall:</p>
+      <ul>
+        <li>Identify all records associated with the consumer within the requesting Dealer's data</li>
+        <li>Permanently anonymize the consumer's Personal Data (name, email, phone number)</li>
+        <li>Remove the content of all messages sent to or received from the consumer</li>
+        <li>Cancel any pending or queued communications to the consumer</li>
+        <li>Archive consent and opt-out records as required by law (see Section 5 below)</li>
+        <li>Generate a deletion certificate confirming the action taken</li>
+      </ul>
+      <p>Deletion requests will be completed within forty-five (45) calendar days of receipt. If additional time is required, the Company will notify the Dealer and complete the request within ninety (90) calendar days.</p>
+
+      <h3>4. RIGHT TO CORRECT:</h3>
+      <p>Upon verified request from a Dealer, the Company shall correct inaccurate Personal Data in its systems. Corrections are applied to the active lead record and take effect immediately for all future communications.</p>
+
+      <h3>5. EXCEPTIONS TO DELETION:</h3>
+      <p>Consistent with Applicable Privacy Laws, the Company may retain certain data after a deletion request where retention is necessary to:</p>
+      <ul>
+        <li>Complete a transaction or provide services reasonably anticipated within the business relationship</li>
+        <li>Detect, prevent, or investigate security incidents or fraud</li>
+        <li>Comply with a legal obligation, including TCPA consent record retention</li>
+        <li>Exercise or defend legal claims</li>
+        <li>Ensure another consumer who has exercised a privacy right is not contacted again (opt-out enforcement)</li>
+      </ul>
+      <p>Retained data is limited to the minimum necessary for the applicable exception and is stored in a separate compliance archive accessible only for the stated purpose.</p>
+
+      <h3>6. NON-DISCRIMINATION:</h3>
+      <p>The Company does not discriminate against any consumer for exercising their privacy rights. Exercising data rights will not result in different pricing, service quality, or access for the associated Dealer.</p>
+
+      <h3>7. VERIFICATION:</h3>
+      <p>Consumer rights requests must be submitted through the Dealer (as the Data Controller). The Company does not accept rights requests directly from consumers, as the Company does not maintain a direct relationship with the consumer. The Dealer is responsible for verifying the consumer's identity before forwarding the request to the Company.</p>
+
+      <h3>8. RESPONSE PROCESS:</h3>
+      <p>Upon receiving a verified consumer rights request from a Dealer, the Company's process is as follows:</p>
+      <ol>
+        <li>Acknowledge receipt within two (2) business days</li>
+        <li>Locate all records associated with the consumer</li>
+        <li>Execute the requested action (access, deletion, or correction)</li>
+        <li>Provide the Dealer with a written confirmation or certificate within forty-five (45) days</li>
+        <li>Log the request and its resolution in the Company's compliance audit trail</li>
+      </ol>
+
+      <h3>9. CONTACT FOR DATA RIGHTS:</h3>
+      <p>Dealers may submit consumer data rights requests to:</p>
+      <ul>
+        <li><strong>Email:</strong> zach@digitaldepthsmining.com</li>
+        <li><strong>Subject Line:</strong> "Consumer Data Rights Request - [Dealer Name]"</li>
+      </ul>
+      <p>Include the consumer's name, email address (as it appears in the system), and the specific right being exercised.</p>
+    </section>
+
+    <p class="updated"><strong>Version: DDM-ULN-v1.1-2026-04-03 | Effective Date: April 3, 2026</strong></p>
 
   </div>
 </div>
@@ -327,7 +474,7 @@
 <!-- STRUCTURED LEGAL FOOTER -->
 <div class="legal-footer">
   <div class="container">
-    <div class="version-banner">Structured Website Footer — Auto Dealership BDC Services — Version DDM-ULN-v1.0-2026-04-03</div>
+    <div class="version-banner">Structured Website Footer — Auto Dealership BDC Services — Version DDM-ULN-v1.1-2026-04-03</div>
     <p class="legal-preamble">Any use of this company's resources constitutes agreement to the Terms and Conditions located in the Structured Website Footer. By accessing, using, or interacting with any Company Resource, you acknowledge that you have read, understood, and agree to be bound by the terms contained in the <a href="legal-notice.html">Uniform Legal Notice</a>.</p>
     <div class="legal-columns">
       <div>
@@ -349,12 +496,14 @@
           <li><a href="#ecc">Electronic Communications Consent</a></li>
           <li><a href="#dpt">Data Processing Terms</a></li>
           <li><a href="#aitd">AI Development Tools Disclosure</a></li>
+          <li><a href="#sto">Service Termination &amp; Offboarding</a></li>
+          <li><a href="#cdr">Consumer Data Rights</a></li>
           <li><a href="privacy-policy.html">Privacy Policy</a></li>
           <li><a href="terms-of-service.html">Terms of Service</a></li>
         </ul>
       </div>
     </div>
-    <div class="version-banner-bottom">Version DDM-ULN-v1.0-2026-04-03 | Effective April 3, 2026</div>
+    <div class="version-banner-bottom">Version DDM-ULN-v1.1-2026-04-03 | Effective April 3, 2026</div>
   </div>
 </div>
 
