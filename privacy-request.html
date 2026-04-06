@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Request — Digital Depths Mining</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    max-width: 600px;
+    width: 100%;
+    padding: 40px 24px;
+  }
+  .logo {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .logo h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #e6edf3;
+    letter-spacing: -0.5px;
+  }
+  .logo p {
+    color: #8b949e;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 32px;
+  }
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #e6edf3;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    color: #8b949e;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #c9d1d9;
+    margin-bottom: 6px;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 10px 14px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    color: #e6edf3;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #58a6ff;
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  select { cursor: pointer; }
+  .request-types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .request-type {
+    padding: 14px;
+    background: #0d1117;
+    border: 2px solid #30363d;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .request-type:hover { border-color: #58a6ff; }
+  .request-type.selected {
+    border-color: #58a6ff;
+    background: #0d1117;
+    box-shadow: 0 0 0 1px #58a6ff;
+  }
+  .request-type input { display: none; }
+  .request-type .icon { font-size: 22px; margin-bottom: 6px; }
+  .request-type .label { font-size: 13px; font-weight: 600; color: #e6edf3; }
+  .request-type .desc { font-size: 11px; color: #8b949e; margin-top: 4px; }
+  .btn-submit {
+    width: 100%;
+    padding: 12px;
+    background: #238636;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-submit:hover { background: #2ea043; }
+  .btn-submit:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
+  .notice {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 24px;
+    font-size: 12px;
+    color: #8b949e;
+    line-height: 1.6;
+  }
+  .notice strong { color: #c9d1d9; }
+  .success-card {
+    text-align: center;
+    padding: 48px 32px;
+  }
+  .success-card .check { font-size: 48px; margin-bottom: 16px; }
+  .success-card h2 { margin-bottom: 12px; }
+  .success-card p { color: #8b949e; font-size: 14px; line-height: 1.6; }
+  .error-msg {
+    background: #3d1117;
+    border: 1px solid #f85149;
+    color: #f85149;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .alt-method {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 13px;
+    color: #8b949e;
+  }
+  .alt-method a { color: #58a6ff; text-decoration: none; }
+  .required { color: #f85149; }
+  @media (max-width: 480px) {
+    .request-types { grid-template-columns: 1fr; }
+    .container { padding: 24px 16px; }
+    .card { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <h1>Digital Depths Mining</h1>
+      <p>Privacy Request Center</p>
+    </div>
+
+    <div class="card" id="formCard">
+      <h2>Submit a Privacy Request</h2>
+      <p class="subtitle">
+        Under the California Consumer Privacy Act (CCPA) and California Privacy Rights Act (CPRA),
+        you have the right to access, delete, or correct your personal information.
+        We will respond within 45 days of verifying your identity.
+      </p>
+
+      <div id="errorMsg" class="error-msg"></div>
+
+      <form id="privacyForm" onsubmit="return submitRequest(event)">
+        <label>What would you like to do? <span class="required">*</span></label>
+        <div class="request-types" id="requestTypes">
+          <label class="request-type" onclick="selectType(this, 'access')">
+            <input type="radio" name="request_type" value="access">
+            <div class="icon">&#128269;</div>
+            <div class="label">Access My Data</div>
+            <div class="desc">Get a copy of what we have</div>
+          </label>
+          <label class="request-type" onclick="selectType(this, 'delete')">
+            <input type="radio" name="request_type" value="delete">
+            <div class="icon">&#128465;</div>
+            <div class="label">Delete My Data</div>
+            <div class="desc">Erase my personal info</div>
+          </label>
+          <label class="request-type" onclick="selectType(this, 'correct')">
+            <input type="radio" name="request_type" value="correct">
+            <div class="icon">&#9998;</div>
+            <div class="label">Correct My Data</div>
+            <div class="desc">Fix inaccurate information</div>
+          </label>
+          <label class="request-type" onclick="selectType(this, 'opt_out')">
+            <input type="radio" name="request_type" value="opt_out">
+            <div class="icon">&#128683;</div>
+            <div class="label">Opt Out</div>
+            <div class="desc">Stop using my data</div>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Full Name <span class="required">*</span></label>
+          <input type="text" id="name" name="consumer_name" required placeholder="Your full name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address <span class="required">*</span></label>
+          <input type="email" id="email" name="consumer_email" required placeholder="your@email.com">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number <span style="color:#8b949e">(optional)</span></label>
+          <input type="tel" id="phone" name="consumer_phone" placeholder="(555) 123-4567">
+        </div>
+
+        <div class="form-group">
+          <label for="details">Additional Details <span style="color:#8b949e">(optional)</span></label>
+          <textarea id="details" name="details" placeholder="If you're requesting a correction, describe what needs to be fixed. Otherwise, leave blank."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Submit Request</button>
+      </form>
+
+      <div class="notice">
+        <strong>What happens next:</strong> After you submit this form, we'll send a verification
+        email to the address you provided. Click the link in that email to confirm your identity.
+        Once verified, we'll process your request and respond within 45 days.
+        <br><br>
+        We may contact you for additional verification if needed to protect your privacy.
+      </div>
+    </div>
+
+    <div class="card success-card" id="successCard" style="display:none">
+      <div class="check">&#9989;</div>
+      <h2>Request Submitted</h2>
+      <p>
+        We've sent a verification email to <strong id="successEmail"></strong>.
+        <br><br>
+        Please check your inbox and click the verification link to confirm your identity.
+        Your request will be processed within 45 days after verification.
+        <br><br>
+        If you don't see the email, check your spam folder.
+      </p>
+    </div>
+
+    <div class="alt-method">
+      You can also submit requests by emailing
+      <a href="mailto:privacy@digitaldepthsmining.com">privacy@digitaldepthsmining.com</a>
+    </div>
+  </div>
+
+<script>
+  // API base URL — points to the Bernard webhook server via Cloudflare tunnel
+  // UPDATE THIS when you set up a stable subdomain (e.g. api.digitaldepthsmining.com)
+  const API_BASE = window.DDM_API_BASE || 'https://scope-florence-detection-clock.trycloudflare.com';
+
+  let selectedType = null;
+
+  function selectType(el, type) {
+    document.querySelectorAll('.request-type').forEach(rt => rt.classList.remove('selected'));
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+    selectedType = type;
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 8000);
+  }
+
+  async function submitRequest(e) {
+    e.preventDefault();
+
+    if (!selectedType) {
+      showError('Please select a request type.');
+      return false;
+    }
+
+    const form = document.getElementById('privacyForm');
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    const payload = {
+      request_type: selectedType,
+      consumer_name: form.consumer_name.value.trim(),
+      consumer_email: form.consumer_email.value.trim(),
+      consumer_phone: form.consumer_phone.value.trim() || null,
+      details: form.details.value.trim() || null
+    };
+
+    if (!payload.consumer_name || !payload.consumer_email) {
+      showError('Name and email are required.');
+      btn.disabled = false;
+      btn.textContent = 'Submit Request';
+      return false;
+    }
+
+    try {
+      const res = await fetch(API_BASE + '/api/privacy/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        document.getElementById('formCard').style.display = 'none';
+        document.getElementById('successCard').style.display = 'block';
+        document.getElementById('successEmail').textContent = payload.consumer_email;
+      } else {
+        showError(data.error || 'Something went wrong. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'Submit Request';
+      }
+    } catch (err) {
+      showError('Network error. Please check your connection and try again.');
+      btn.disabled = false;
+      btn.textContent = 'Submit Request';
+    }
+
+    return false;
+  }
+
+  // Auto-select request type from URL parameter (e.g. ?type=opt_out for "Do Not Sell" link)
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+    if (type && ['access','delete','correct','opt_out'].includes(type)) {
+      document.querySelectorAll('.request-type').forEach(el => {
+        const input = el.querySelector('input');
+        if (input && input.value === type) selectType(el, type);
+      });
+    }
+  })();
+</script>
+</body>
+</html>
